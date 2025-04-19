@@ -1,12 +1,24 @@
-# React + Vite
+📺 YouTube Clone – Development Progress (React + Redux + Tailwind CSS)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+🧱 Project Setup and Progress
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Initialized a React project using Vite
+# Installed and configured tailwindcss and Redux Toolkit
+# Used client-side-routing with nested routes
 
-## Expanding the ESLint configuration
+# Used react-router-dom v6 for routing with nested routes
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Created main UI components: Header, Sidebar, Body, MainContainer, VideoContainer, VideoCards
+
+# Fetched videos from YouTube API and stored them in Redux store
+
+# Used useSelector and useDispatch to manage and access Redux state
+
+# Built WatchPage to display a selected video with title, channel info, actions (like/share/save)
+
+# Sidebar supports collapse/expand toggle using hamburger state in Redux
+
+# Implemented iframe-based video player using videoId from URL search params
+
+# Added dynamic routing: /, /watch, /home, /shorts

@@ -8,7 +8,7 @@ const VideoCards = ({ info }) => {
   const { viewCount } = statistics;
 
   return (
-<div className="cursor-pointer border border-gray-400 w-full p-2 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+<div className="cursor-pointer border border-gray-400 w-full p-1 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
   <img
     className="rounded-xl h-56 w-full object-cover"
     src={thumbnails.high.url}
