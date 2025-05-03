@@ -35,7 +35,7 @@ const WatchPage = () => {
 
   return (
     <div className="py-3 px-20 mx-12">
-      <div className="max-w-[780px] w-full">
+      <div className="w-[780px]">
         <iframe
           className="rounded-xl w-full h-[460px]"
           src={"https://www.youtube.com/embed/" + videoId}
@@ -45,7 +45,6 @@ const WatchPage = () => {
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
         ></iframe>
-
         <div className="yt_Title mt-3 border rounded-lg">
           <h3 className="text-xl font-semibold">{title}</h3>
 

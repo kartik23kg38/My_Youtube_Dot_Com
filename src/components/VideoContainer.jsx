@@ -4,8 +4,11 @@ import { YOUTUBE_VDOS_API } from "../utils/constants";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setVideos } from "../utils/videoSlice";
+import VdoCardRedBorder from "./HOC/VdoCardRedBorder";
 
 const VideoContainer = () => {
+  const RedColoredVdoCard = VdoCardRedBorder(VideoCards);
+
   const dispatch= useDispatch();
    // ⬇️ Get videos from Redux store
    const videos = useSelector((state) => state.videosOfStore.videos);
@@ -25,9 +28,14 @@ const VideoContainer = () => {
 
   return (
     <div className="px-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-y-4 gap-x-4 ">
-      {videos.map((video) => (
+      {videos.map((video, index) => (
         <Link key={video.id} to={"watch?v=" + video.id}>
-          <VideoCards info={video} />
+          {index === 1 ? (
+            <RedColoredVdoCard info={video} />
+          ) : (
+            <VideoCards info={video} />
+          )}
+          {/* <VideoCards info={video} /> */}
         </Link>
       ))}
     </div>

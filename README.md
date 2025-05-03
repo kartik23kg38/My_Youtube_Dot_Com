@@ -1,4 +1,4 @@
-📺 YouTube Clone – Development Progress (React + Redux + Tailwind CSS)
+# 📺 YouTube Clone – Development Progress (React + Redux + Tailwind CSS)
 
 
 🧱 Project Setup and Progress

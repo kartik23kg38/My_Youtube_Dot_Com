@@ -6,6 +6,6 @@ const store = configureStore({
     reducer: {
         hamburger: appReducer,
         videosOfStore: videoReducer,
-    },
+    }, 
 });
 export default store;
