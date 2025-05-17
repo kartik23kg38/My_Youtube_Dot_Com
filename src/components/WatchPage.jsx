@@ -4,6 +4,109 @@ import { closeHamburger } from "../utils/appSlice";
 import { useSearchParams } from "react-router-dom";
 import { YOUTUBE_VDOS_API } from "../utils/constants";
 import { setVideos } from "../utils/videoSlice";
+import CommentsContainer from "./CommentsContainer";
+
+const commentsData = [
+  {
+    name: "Jane Smith",
+    text: "I agree! Very informative.",
+    replies: [],
+  },
+  {
+    name: "Alice Johnson",
+    text: "I agree! Very informative.",
+    replies: [],
+  },
+  {
+    name: "Bob Brown",
+    text: "I agree! Very informative.",
+    replies: [],
+  },
+  {
+    name: "Green Wisdom",
+    text: "Great video! I learned a lot.",
+    replies: [
+      {
+        name: "Jane Smith",
+        text: "I agree! Very informative.",
+        replies: [],
+      },
+      {
+        name: "Alice Johnson",
+        text: "Thanks for sharing!",
+        replies: [
+          {
+            name: "Alice Johnson",
+            text: "Thanks for sharing!",
+            replies: [],
+          },
+          {
+            name: "Alice Johnson",
+            text: "Thanks for sharing!",
+            replies: [
+              {
+                name: "kgg Johnson",
+                text: "Thanks for sharing!",
+                replies: [],
+              },
+              {
+                name: "Alice Johnson",
+                text: "Thanks for sharing!",
+                replies: [
+                  {
+                    name: "beta",
+                    text: "Thanks for sharing!",
+                    replies: [
+                      {
+                        name: "Alice Johnson",
+                        text: "Thanks for sharing!",
+                        replies: [
+                          {
+                            name: "Alice Johnson",
+                            text: "Thanks for sharing!",
+                            replies: [
+                              {
+                                name: "charles Johnson",
+                                text: "Thanks for sharing!",
+                                replies: [],
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      {
+                        name: "Alice Johnson",
+                        text: "Thanks for sharing!",
+                        replies: [
+                          {
+                            name: "Alice Johnson",
+                            text: "Thanks for sharing!",
+                            replies: [],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: "Alice Johnson",
+            text: "Thanks for sharing!",
+            replies: [],
+          },
+        ],
+      },
+      {
+        name: "Bob Brown",
+        text: "Can't wait for the next one!",
+        replies: [],
+      },
+    ],
+  },
+];
+
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
@@ -27,7 +130,7 @@ const WatchPage = () => {
     dispatch(setVideos(json));
     // console.log(json?.items);
   };
-  console.log(videos);
+  // console.log(videos);
 
   if (!currentVideo?.snippet || !currentVideo?.statistics) return;
   const { channelTitle, title, publishedAt, thumbnails } = currentVideo.snippet;
@@ -80,6 +183,10 @@ const WatchPage = () => {
               </button>
             </div>
           </div>
+        </div>
+        <h1 className="font-bold text-2xl mt-8 mb-4">Comments:</h1>
+        <div className="bg-gray-300 rounded-lg">
+          <CommentsContainer comments={commentsData} />
         </div>
       </div>
     </div>
