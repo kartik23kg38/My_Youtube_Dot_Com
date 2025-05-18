@@ -5,107 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { YOUTUBE_VDOS_API } from "../utils/constants";
 import { setVideos } from "../utils/videoSlice";
 import CommentsContainer from "./CommentsContainer";
-
-const commentsData = [
-  {
-    name: "Jane Smith",
-    text: "I agree! Very informative.",
-    replies: [],
-  },
-  {
-    name: "Alice Johnson",
-    text: "I agree! Very informative.",
-    replies: [],
-  },
-  {
-    name: "Bob Brown",
-    text: "I agree! Very informative.",
-    replies: [],
-  },
-  {
-    name: "Green Wisdom",
-    text: "Great video! I learned a lot.",
-    replies: [
-      {
-        name: "Jane Smith",
-        text: "I agree! Very informative.",
-        replies: [],
-      },
-      {
-        name: "Alice Johnson",
-        text: "Thanks for sharing!",
-        replies: [
-          {
-            name: "Alice Johnson",
-            text: "Thanks for sharing!",
-            replies: [],
-          },
-          {
-            name: "Alice Johnson",
-            text: "Thanks for sharing!",
-            replies: [
-              {
-                name: "kgg Johnson",
-                text: "Thanks for sharing!",
-                replies: [],
-              },
-              {
-                name: "Alice Johnson",
-                text: "Thanks for sharing!",
-                replies: [
-                  {
-                    name: "beta",
-                    text: "Thanks for sharing!",
-                    replies: [
-                      {
-                        name: "Alice Johnson",
-                        text: "Thanks for sharing!",
-                        replies: [
-                          {
-                            name: "Alice Johnson",
-                            text: "Thanks for sharing!",
-                            replies: [
-                              {
-                                name: "charles Johnson",
-                                text: "Thanks for sharing!",
-                                replies: [],
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                      {
-                        name: "Alice Johnson",
-                        text: "Thanks for sharing!",
-                        replies: [
-                          {
-                            name: "Alice Johnson",
-                            text: "Thanks for sharing!",
-                            replies: [],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            name: "Alice Johnson",
-            text: "Thanks for sharing!",
-            replies: [],
-          },
-        ],
-      },
-      {
-        name: "Bob Brown",
-        text: "Can't wait for the next one!",
-        replies: [],
-      },
-    ],
-  },
-];
+import LiveChat from "./LiveChat";
 
 
 const WatchPage = () => {
@@ -137,7 +37,9 @@ const WatchPage = () => {
   const { likeCount, viewCount } = currentVideo.statistics;
 
   return (
-    <div className="py-3 px-20 mx-12">
+    <div className="flex py-3 px-20 mx-auto gap-16 bg-gradient-to-r from-gray-800 via-white to-black
+">
+      {/* Left Section: Video & Comments */}
       <div className="w-[780px]">
         <iframe
           className="rounded-xl w-full h-[460px]"
@@ -186,8 +88,11 @@ const WatchPage = () => {
         </div>
         <h1 className="font-bold text-2xl mt-8 mb-4">Comments:</h1>
         <div className="bg-gray-300 rounded-lg">
-          <CommentsContainer comments={commentsData} />
+          <CommentsContainer videoId={videoId} />
         </div>
+      </div>
+      <div className="w-[450px] h-[600px] bg-gray-100 rounded-xl p-4 overflow-y-auto">
+        <LiveChat />
       </div>
     </div>
   );
