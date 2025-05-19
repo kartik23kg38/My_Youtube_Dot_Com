@@ -2,42 +2,51 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 // This file defines a Redux slice for managing YouTube video comments.
 
-// export const fetchComments = createAsyncThunk(
-//   "comments/fetchComments",
-//   async (videoId) => {
-//     const response = await fetch(
-//       `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&maxResults=25&textFormat=plainText&key=${
-//         import.meta.env.VITE_GOOGLE_API
-//       }`
-//     );
-//     const data = await response.json();
-//     console.log("Fetched comments:", data);
+// Helper function to find a comment by ID in a nested structure
+const findComment = (comments, id) => {
+  for (let comment of comments) {
+    if (comment.id === id) return comment;
+    if (comment.replies) {
+      const found = findComment(comment.replies, id);
+      if (found) return found;
+    }
+  }
+  return null;
+};
 
-//     // ✅ Fix: Declare snippet INSIDE map function block
-//     const comments =
-//       data.items?.map((item) => {
-//         const snippet = item.snippet.topLevelComment.snippet;
-//         return {
-//           id: item.id,
-//           name: snippet.authorDisplayName,
-//           text: snippet.textDisplay,
-//           avatar: snippet.authorProfileImageUrl,
-//           likes: snippet.likeCount,
-//           replies: [],
-//           showReplies: false, // Add flag to toggle replies visibility
-//         };
-//       }) || [];
-
-//     return comments;
-//   }
-// );
+// Helper function to find a comment's parent array and index
+const findCommentParent = (
+  comments,
+  id,
+  parentArray = null,
+  parentIndex = -1
+) => {
+  for (let i = 0; i < comments.length; i++) {
+    if (comments[i].id === id) {
+      return {
+        parentArray: parentArray || comments,
+        index: parentIndex !== -1 ? parentIndex : i,
+      };
+    }
+    if (comments[i].replies) {
+      const result = findCommentParent(
+        comments[i].replies,
+        id,
+        comments[i].replies,
+        i
+      );
+      if (result) return result;
+    }
+  }
+  return null;
+};
 
 export const fetchComments = createAsyncThunk(
   "comments/fetchComments",
   async (videoId, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&maxResults=25&textFormat=plainText&key=${
+        `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&order=time&videoId=${videoId}&maxResults=25&textFormat=plainText&key=${
           import.meta.env.VITE_GOOGLE_API
         }`
       );
@@ -55,6 +64,7 @@ export const fetchComments = createAsyncThunk(
           likes: item.snippet.topLevelComment.snippet.likeCount,
           replies: [], // Initialize empty replies array
           showReplies: false, // Add flag to toggle replies visibility
+          totalReplyCount: item.snippet.totalReplyCount || 0,
         })) || [];
       return comments;
     } catch (error) {
@@ -69,7 +79,7 @@ export const fetchReplies = createAsyncThunk(
   async (commentId, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/comments?part=snippet&parentId=${commentId}&maxResults=25&textFormat=plainText&key=${
+        `https://www.googleapis.com/youtube/v3/comments?part=snippet&parentId=${commentId}&maxResults=25&order=time&textFormat=plainText&key=${
           import.meta.env.VITE_GOOGLE_API
         }`
       );
@@ -117,33 +127,20 @@ const commentSlice = createSlice({
       );
     },
     updateComment: (state, action) => {
-      const index = state.exampleComments.findIndex(
-        (comment) => comment.id === action.payload.id
-      );
-      if (index !== -1) {
-        state.exampleComments[index] = action.payload;
+      const { parentArray, index } =
+        findCommentParent(state.exampleComments, action.payload.id) || {};
+      if (parentArray && index !== -1) {
+        parentArray[index] = { ...parentArray[index], ...action.payload };
       }
     },
     likecomment: (state, action) => {
-      const findComment = (comments, id) => {
-        for (let comment of comments) {
-          if (comment.id === id) return comment;
-          if (comment.replies) {
-            const found = findComment(comment.replies, id);
-            if (found) return found;
-          }
-        }
-        return null;
-      };
       const comment = findComment(state.exampleComments, action.payload);
       if (comment) {
         comment.likes = (comment.likes || 0) + 1;
       }
     },
     toggleShowReplies: (state, action) => {
-      const comment = state.exampleComments.find(
-        (comment) => comment.id === action.payload
-      );
+      const comment = findComment(state.exampleComments, action.payload);
       if (comment) {
         comment.showReplies = !comment.showReplies;
       }
@@ -162,23 +159,25 @@ const commentSlice = createSlice({
       .addCase(fetchComments.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
+      })
+      .addCase(fetchReplies.pending, (state, action) => {
+        const commentId = action.meta.arg;
+        state.repliesLoading[commentId] = true;
+      })
+      .addCase(fetchReplies.fulfilled, (state, action) => {
+        const { commentId, replies } = action.payload;
+        const comment = findComment(state.exampleComments, commentId);
+        if (comment) {
+          comment.replies = replies;
+          comment.showReplies = true;
+        }
+        state.repliesLoading[commentId] = false;
+      })
+      .addCase(fetchReplies.rejected, (state, action) => {
+        const commentId = action.meta.arg;
+        state.repliesLoading[commentId] = false;
+        state.error = action.payload || "Failed to fetch replies";
       });
-    // .addCase(fetchReplies.pending, (state, action) => {
-    //   const commentId = action.meta.arg;
-    //   state.repliesLoading[commentId] = true;
-    // })
-    // .addCase(fetchReplies.fulfilled, (state, action) => {
-    //   const { commentId, replies } = action.payload;
-    //   const comment = state.exampleComments.find((c) => c.id === commentId);
-    //   if (comment) {
-    //     comment.replies = replies;
-    //   }
-    //   state.repliesLoading[commentId] = false;
-    // })
-    // .addCase(fetchReplies.rejected, (state, action) => {
-    //   const commentId = action.meta.arg;
-    //   state.repliesLoading[commentId] = false;
-    // });
   },
 });
 export const {

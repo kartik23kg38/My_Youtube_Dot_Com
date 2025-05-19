@@ -7,9 +7,23 @@ import {
   toggleShowReplies,
 } from "../utils/commentSlice";
 
+const formatTimestamp = (publishedAt) => {
+  const now = new Date();
+  const posted = new Date(publishedAt);
+  const diffMs = now - posted;
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffHours < 1) return "Just now";
+  if (diffHours < 24)
+    return `${diffHours} hour${diffHours === 1 ? "" : "s"} ago`;
+  return `${diffDays} day${diffDays === 1 ? "" : "s"} ago`;
+};
+
 const Comment = ({ data, isReply = false }) => {
   const dispatch = useDispatch();
-  const { id, name, text, replies, showReplies } = data;
+  const { id, name, text, replies, showReplies, publishedAt } = data;
+  const totalReplyCount = replies ? replies.length : 0;
   const repliesLoading = useSelector(
     (store) => store.comments.repliesLoading[id]
   );
@@ -52,7 +66,7 @@ const Comment = ({ data, isReply = false }) => {
                 isReply ? "text-xs font-normal" : "text-sm font-medium"
               } pl-2 pr-4 bg-gray-500 rounded-e-2xl`}
             >
-              1 day ago
+              {publishedAt ? formatTimestamp(publishedAt) : "1 day ago"}
             </span>
           </div>
           <p
@@ -80,7 +94,7 @@ const Comment = ({ data, isReply = false }) => {
             ? "Loading Replies..."
             : showReplies
             ? "Hide Replies"
-            : `Show Replies (${replies.length})`}
+            : `Show Replies (${totalReplyCount})`}
         </button>
       </div>
       {showReplies && replies && replies.length > 0 && (
@@ -108,16 +122,18 @@ const CommentsContainer = ({ videoId }) => {
 
   // console.log("CommentsContainer State:", { videoId, comments, status, error });
 
-  if (status) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  // if (status) return <p>Loading...</p>;
+  // if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="p-4">
-      {comments && comments.length > 0 ? (
-        comments.map((comment) => <Comment key={comment.id} data={comment} />)
-      ) : (
-        <p className="text-gray-600 text-sm">No comments available.</p>
-      )}
+      {status && <p className="text-gray-600">Loading...</p>}
+      {error && <p className="text-red-600">Error: {error}</p>}
+      {comments && comments.length > 0
+        ? comments.map((comment) => <Comment key={comment.id} data={comment} />)
+        : !status && (
+            <p className="text-gray-600 text-sm">No comments available.</p>
+          )}
     </div>
   );
 };
