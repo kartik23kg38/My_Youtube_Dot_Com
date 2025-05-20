@@ -65,6 +65,7 @@ export const fetchComments = createAsyncThunk(
           replies: [], // Initialize empty replies array
           showReplies: false, // Add flag to toggle replies visibility
           totalReplyCount: item.snippet.totalReplyCount || 0,
+          publishedAt: item.snippet.topLevelComment.snippet.publishedAt,
         })) || [];
       return comments;
     } catch (error) {

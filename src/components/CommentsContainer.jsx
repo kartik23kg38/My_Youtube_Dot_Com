@@ -122,8 +122,8 @@ const CommentsContainer = ({ videoId }) => {
 
   // console.log("CommentsContainer State:", { videoId, comments, status, error });
 
-  // if (status) return <p>Loading...</p>;
-  // if (error) return <p>Error: {error}</p>;
+  if (status) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="p-4">
