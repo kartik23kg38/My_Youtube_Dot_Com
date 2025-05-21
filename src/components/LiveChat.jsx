@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ChatMessage from "./ChatMessage";
 
 const LiveChat = () => {
+  useEffect(() => {
+    const i = setInterval(() => {
+      console.log("Fetching new messages...");
+      // Simulate fetching new messages
+    }, 2000);
+
+    return () => clearInterval(i); // Cleanup interval on unmount
+  }, []);
+
   return (
     <div className="h-auto p-4 bg-gray-200 rounded-lg">
       <h2 className="text-lg font-bold mb-4  border-b border-gray-400 ">
@@ -11,25 +20,8 @@ const LiveChat = () => {
         <ChatMessage
           name="Kartik"
           msg="Reaisfy this requirement. Hello Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg=" Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg="R satisfy this requirement. Hello Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg="React comptiple elements and effectively return them as a single fragment entity to satisfy this requirement. Hello Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg="React compongments allow you to group multiple elements and effectively return them as a single fragment entity to satisfy this requirement. Hello Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg="R satisfy this requirement. Hello Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg="Rea a single fragment entity to satisfy this requirement. Hello Sir, I wanna study maths..."
         />
+
         {/* Simulate more messages here */}
       </div>
       {/* Fixed input at the bottom */}
