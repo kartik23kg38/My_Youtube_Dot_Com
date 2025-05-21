@@ -22,8 +22,7 @@ const formatTimestamp = (publishedAt) => {
 
 const Comment = ({ data, isReply = false }) => {
   const dispatch = useDispatch();
-  const { id, name, text, replies, showReplies, publishedAt } = data;
-  const totalReplyCount = replies ? replies.length : 0;
+  const { id, name, text, replies, totalReplyCount, showReplies, publishedAt } = data;
   const repliesLoading = useSelector(
     (store) => store.comments.repliesLoading[id]
   );
@@ -66,7 +65,7 @@ const Comment = ({ data, isReply = false }) => {
                 isReply ? "text-xs font-normal" : "text-sm font-medium"
               } pl-2 pr-4 bg-gray-500 rounded-e-2xl`}
             >
-              {publishedAt ? formatTimestamp(publishedAt) : "1 day ago"}
+              {publishedAt ? formatTimestamp(publishedAt) : "Unknown time"}
             </span>
           </div>
           <p
@@ -81,13 +80,13 @@ const Comment = ({ data, isReply = false }) => {
       <div className="ml-6">
         <button
           onClick={() => dispatch(likecomment(id))}
-          className="text-sm text-blue-600 mr-4"
+          className="text-sm px-2 py-1 bg-purple-500 mr-4 text-white rounded-full"
         >
           👍 Like ({data.likes || 0})
         </button>
         <button
           onClick={handleShowReplies}
-          className="text-sm text-blue-600"
+          className="text-sm px-2 py-1 bg-purple-500 text-white rounded-full"
           disabled={repliesLoading}
         >
           {repliesLoading
@@ -100,7 +99,7 @@ const Comment = ({ data, isReply = false }) => {
       {showReplies && replies && replies.length > 0 && (
         <div className="ml-6 pl-4 border-l-2 border-gray-300">
           {replies.map((reply, index) => (
-            <Comment key={index} data={reply} isReply={true} />
+            <Comment key={reply.id || `reply-${id}-${replies.indexOf(reply)}`} data={reply} isReply={true} />
           ))}
         </div>
       )}

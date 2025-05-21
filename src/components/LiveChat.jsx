@@ -1,35 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ChatMessage from "./ChatMessage";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { addMessage } from "../utils/chatSlice"; // Assuming you have an action to add
+import { generateRandomNames } from "../utils/helper"; // Importing the random name generator
+import { makeRandomMessages } from "../utils/helper"; // Importing the random name generator
 
 const LiveChat = () => {
+  const dispatch = useDispatch();
+  const chatMessages = useSelector((state) => state.chat.messages);
+  useEffect(() => {
+    const i = setInterval(() => {
+      console.log("Fetching new messages...");
+
+      dispatch(
+        addMessage({
+          name: generateRandomNames(), // Generate a random name
+          msg: makeRandomMessages(60),
+        })
+      );
+    }, 1000);
+
+    return () => clearInterval(i); // Cleanup interval on unmount
+  }, [dispatch]);
+  
+
   return (
-    <div className="h-auto p-4 bg-gray-200 rounded-lg">
+    <div className="h-auto p-4 bg-violet-400 rounded-lg">
       <h2 className="text-lg font-bold mb-4  border-b border-gray-400 ">
         Live Chats
       </h2>
-      <div className="space-y-2 h-[500px] overflow-y-auto p-4 bg-gray-300 rounded-lg">
-        <ChatMessage
-          name="Kartik"
-          msg="Reaisfy this requirement. Hello Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg=" Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg="R satisfy this requirement. Hello Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg="React comptiple elements and effectively return them as a single fragment entity to satisfy this requirement. Hello Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg="React compongments allow you to group multiple elements and effectively return them as a single fragment entity to satisfy this requirement. Hello Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg="R satisfy this requirement. Hello Sir, I wanna study maths..."
-        /><ChatMessage
-          name="Kartik"
-          msg="Rea a single fragment entity to satisfy this requirement. Hello Sir, I wanna study maths..."
-        />
+      <div className="space-y-2 h-[500px] flex space-y-reverse overflow-y-auto overflow-x-auto p-4 bg-pink-300 rounded-lg flex-col-reverse">
+        {chatMessages.map((message, idx) => {
+          return (
+            <div
+              key={idx}
+              className="break-words overflow-wrap-anywhere max-w-full"
+            >
+              <ChatMessage
+                name={message.name || "Anonymous"}
+                msg={message.msg || "No message provided"}
+              />
+            </div>
+          );
+        })}
+
         {/* Simulate more messages here */}
       </div>
       {/* Fixed input at the bottom */}

@@ -159,7 +159,7 @@ const commentSlice = createSlice({
       })
       .addCase(fetchComments.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload || "Failed to fetch comments";
       })
       .addCase(fetchReplies.pending, (state, action) => {
         const commentId = action.meta.arg;
