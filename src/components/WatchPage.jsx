@@ -7,14 +7,15 @@ import { setVideos } from "../utils/videoSlice";
 import CommentsContainer from "./CommentsContainer";
 import LiveChat from "./LiveChat";
 
-
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
-  const [subscriberCount, setSubscriberCount] = useState(null); // ✅ State to store sub count
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const videoId = searchParams.get("v");
+  // const [subscriberCount, setSubscriberCount] = useState(null); // ✅ State to store sub count
 
-  const videos = useSelector((state) => state.videosOfStore.videos?.items);
+  const videos = useSelector((state) => state.videosOfStore.videos);
 
   // Find the specific video object based on videoId
   const currentVideo = videos?.find((vid) => vid.id === videoId);
@@ -22,23 +23,55 @@ const WatchPage = () => {
   useEffect(() => {
     dispatch(closeHamburger()); // Closes the hamburger menu/sidebar on the WatchPage
     getVideoDetails(); // Fetch video data from YouTube API
-  }, []);
+  }, [videoId]);
 
   const getVideoDetails = async () => {
-    const data = await fetch(YOUTUBE_VDOS_API);
-    const json = await data.json();
-    dispatch(setVideos(json));
-    // console.log(json?.items);
-  };
-  // console.log(videos);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const data = await fetch(YOUTUBE_VDOS_API);
+      if (!data.ok) {
+        throw new Error(`HTTP error! Status: ${data.status}`);
+      }
+      const json = await data.json();
 
-  if (!currentVideo?.snippet || !currentVideo?.statistics) return;
-  const { channelTitle, title, publishedAt, thumbnails } = currentVideo.snippet;
-  const { likeCount, viewCount } = currentVideo.statistics;
+      // Dispatch items consistently with VideoContainer
+      if (Array.isArray(json.items)) {
+        dispatch(setVideos(json.items));
+      } else {
+        throw new Error("Invalid API response: items is not an array");
+      }
+    } catch (err) {
+      console.error("Fetch Video Details Error:", err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+    // Proper loading and error states
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <p className="text-gray-600">Loading video...</p>
+      </div>
+    );
+  }
+
+    if (!currentVideo?.snippet || !currentVideo?.statistics) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <p className="text-gray-600">Video not found or data unavailable.</p>
+      </div>
+    );
+  }
+  const { channelTitle, title } = currentVideo.snippet;
+  const { likeCount } = currentVideo.statistics;
 
   return (
-    <div className="flex py-3 px-20 mx-auto gap-16 bg-gradient-to-r from-gray-800 via-white to-black
-">
+    <div
+      className="flex py-3 px-20 mx-auto gap-16 bg-gradient-to-r from-gray-800 via-white to-black
+"
+    >
       {/* Left Section: Video & Comments */}
       <div className="w-[780px]">
         <iframe
@@ -75,7 +108,7 @@ const WatchPage = () => {
             {/* Right side: Actions (like/share etc.) */}
             <div className="flex items-center space-x-4 -mt-2">
               <button className="cursor-pointer bg-gray-200 px-4 py-2 rounded-full hover:bg-gray-300 transition duration-200">
-                👍 Like
+                👍 Like {likeCount ? `(${likeCount})` : ''}
               </button>
               <button className="cursor-pointer bg-gray-200 px-4 py-2 rounded-full hover:bg-gray-300 transition duration-200">
                 🔁 Share

@@ -4,17 +4,17 @@ const ChatMessage = ({ name, msg }) => {
   return (
     <>
       {/* user chat with image and message */}
-        <div className="flex items-start space-x-2">
-            <img
-            src="https://cdn-icons-png.flaticon.com/128/17446/17446833.png"
-            alt="User Avatar"
-            className="w-8 h-8 rounded-full"
-            />
-            <div className="flex px-2 bg-purple-400 p-2 rounded-lg shadow-md">
-            <p className="pr-4 text-sm font-semibold">{name}</p>
-            <p className="text-gray-700 text-sm">{msg}</p>
-            </div>
-            </div>
+      <div className="flex items-start space-x-2 rounded-lg">
+        <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+          {name.charAt(0).toUpperCase()}
+        </div>
+        <div className="flex-1 min-w-0 px-2 bg-purple-400 p-2 rounded-lg shadow-md">
+          <div className="text-gray-800 text-sm font-semibold">{name}</div>
+          <div className="text-gray-700 text-sm break-words overflow-wrap-anywhere">
+            {msg}
+          </div>
+        </div>
+      </div>
     </>
   );
 };
