@@ -23,7 +23,7 @@ const WatchPage = () => {
   useEffect(() => {
     dispatch(closeHamburger()); // Closes the hamburger menu/sidebar on the WatchPage
     getVideoDetails(); // Fetch video data from YouTube API
-  }, [videoId]);
+  }, [dispatch, videoId]);
 
   const getVideoDetails = async () => {
     setIsLoading(true);

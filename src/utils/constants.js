@@ -3,4 +3,7 @@ export const YOUTUBE_VDOS_API = "https://youtube.googleapis.com/youtube/v3/video
 
 export const YOUTUBE_SEARCH_SUGGESTIONS_API = "http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=";
 
+// Endpoint for search results (used in SearchResults)
+export const YOUTUBE_SEARCH_API = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&key=" + googleApiKey;
+
 export const LIVE_CHAT_COUNT = 25;

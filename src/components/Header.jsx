@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"; // ✅ Add this import
 import { toggleHamburger } from "../utils/appSlice";
 import SideBar from "./SideBar";
 import { YOUTUBE_SEARCH_SUGGESTIONS_API } from "../utils/constants";
-import { cacheResults } from "../utils/searchSlice"; // Ensure this import is correct
+import { cacheResults } from "../utils/searchSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // ✅ Add this hook
   const isHamburgerOpen = useSelector(
     (state) => state.hamburger.isHamburgerOpen
   );
@@ -18,6 +20,34 @@ const Header = () => {
 
   const toggleHamburgerHandler = () => {
     dispatch(toggleHamburger());
+  };
+
+  // Handle suggestion click
+  const handleSuggestionClick = (suggestion) => {
+    setQuery(suggestion);
+    setShowSuggestions(false);
+    performSearch(suggestion);
+  };
+
+  // Handle search (both button click and suggestion click)
+  const performSearch = (searchQuery = query) => {
+    if (searchQuery.trim()) {
+      // Navigate to results page with search query
+      navigate(`/results?search_query=${encodeURIComponent(searchQuery.trim())}`);
+      setShowSuggestions(false);
+    }
+  };
+
+  // Handle search button click
+  const handleSearchClick = () => {
+    performSearch();
+  };
+
+  // Handle Enter key press in search input
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
   };
 
   // Debounce Logic
@@ -82,27 +112,44 @@ const Header = () => {
           />
         </div>
         <img
-          className="h-6"
+          className="h-6 cursor-pointer"
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/2560px-YouTube_Logo_2017.svg.png"
           alt="YouTube_Logo"
+          onClick={() => navigate('/')} // ✅ Add home navigation
         />
       </div>
       <div className="col-span-10 px-30 relative">
-        <input
-          className="border border-gray-400 w-2/3 rounded-l-full my-2 py-2 px-4 focus:border-2 focus:outline-none focus:border-blue-600"
-          type="text"
-          placeholder="Search your topic"
-          value={query}
-          onFocus={() => setShowSuggestions(true)}
-          onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} // Delay to allow suggestion click
-          onChange={(e) => setQuery(e.target.value)}
-        />
+        <div className="flex"> {/* ✅ Wrap input and button in flex container */}
+          <input
+            className="border border-gray-400 w-2/3 rounded-l-full my-2 py-2 px-4 focus:border-2 focus:outline-none focus:border-blue-600"
+            type="text"
+            placeholder="Search your topic"
+            value={query}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyPress={handleKeyPress} // ✅ Add Enter key handler
+          />
+          <button 
+            className="border border-gray-400 rounded-r-full px-4 py-2 hover:bg-gray-100 transition-colors duration-200"
+            onClick={handleSearchClick} // ✅ Add click handler
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/622/622669.png"
+              alt="search-icon"
+              className="h-5 w-5"
+            />
+          </button>
+        </div>
+
         {suggestions.length > 0 && showSuggestions && (
-          <div className="absolute left-[30px] w-2/3 bg-white border border-gray-300 rounded-lg shadow-lg z-50 transition-all duration-200">
+          <div className="absolute left-0 w-2/3 bg-white border border-gray-300 rounded-lg shadow-lg z-50 transition-all duration-200 mt-1">
             {suggestions.map((s, idx) => (
               <div
                 key={idx}
-                className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2 transition-colors duration-150"
+                onClick={() => handleSuggestionClick(s)} // ✅ Add click handler
+                onMouseDown={(e) => e.preventDefault()} // ✅ Prevent input blur
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/622/622669.png"
@@ -114,14 +161,12 @@ const Header = () => {
             ))}
           </div>
         )}
-        <button className="border border-gray-400 rounded-r-full px-2 py-2">
-          Search
-        </button>
       </div>
       <div className="h-10 w-10 col-span-1">
         <img
           src="https://static.vecteezy.com/system/resources/thumbnails/007/407/996/small/user-icon-person-icon-client-symbol-login-head-sign-icon-design-vector.jpg"
           alt="signin-user-logo"
+          className="rounded-full cursor-pointer hover:opacity-80 transition-opacity duration-200"
         />
       </div>
     </div>

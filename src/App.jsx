@@ -8,6 +8,7 @@ import MainContainer from "./components/MainContainer";
 import WatchPage from "./components/WatchPage";
 import Home from "./components/Home";
 import ShortsPage from "./components/ShortsPage";
+import SearchResults from "./components/SearchResults";
 
 const appRouter = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const appRouter = createBrowserRouter([
         path: "shorts",
         element: <ShortsPage />,
       },
+      {
+        path: "results", 
+        element: <SearchResults />,
+      },
     ],
   },
 ]);
@@ -38,7 +43,7 @@ function App() {
   return (
     <Provider store={store}>
       <div>
-        <Header />
+        {/* <Header /> */}
         {/* <Body /> */}
         <div className="mt-18">
           <RouterProvider router={appRouter} />
