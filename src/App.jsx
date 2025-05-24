@@ -43,8 +43,6 @@ function App() {
   return (
     <Provider store={store}>
       <div>
-        {/* <Header /> */}
-        {/* <Body /> */}
         <div className="mt-18">
           <RouterProvider router={appRouter} />
         </div>

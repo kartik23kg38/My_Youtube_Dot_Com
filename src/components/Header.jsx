@@ -43,13 +43,6 @@ const Header = () => {
     performSearch();
   };
 
-  // Handle Enter key press in search input
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      performSearch();
-    }
-  };
-
   // Debounce Logic
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -128,10 +121,9 @@ const Header = () => {
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyPress={handleKeyPress} // ✅ Add Enter key handler
           />
           <button 
-            className="border border-gray-400 rounded-r-full px-4 py-2 hover:bg-gray-100 transition-colors duration-200"
+            className="border border-gray-400 rounded-r-full px-4 my-2 py-2 hover:bg-gray-100 transition-colors duration-200"
             onClick={handleSearchClick} // ✅ Add click handler
           >
             <img
