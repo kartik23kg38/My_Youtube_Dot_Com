@@ -89,7 +89,7 @@ const Header = () => {
     };
 
     fetchSuggestions();
-  }, [debouncedQuery, dispatch, searchCache]);
+  }, [debouncedQuery, dispatch]);
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-white grid grid-flow-col items-center gap-4 p-2 shadow-lg">
