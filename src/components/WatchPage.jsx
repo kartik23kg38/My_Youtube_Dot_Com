@@ -73,22 +73,22 @@ const WatchPage = () => {
 "
     >
       {/* Left Section: Video & Comments */}
-      <div className="w-[780px]">
+      <div className="w-[880px] ">
         <iframe
-          className="rounded-xl w-full h-[460px]"
-          src={"https://www.youtube.com/embed/" + videoId}
+          className="rounded-xl w-full h-[500px] ml-5"
+          src={`https://www.youtube.com/embed/${videoId}`}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
         ></iframe>
-        <div className="yt_Title mt-3 border rounded-lg">
+        <div className="yt_Title mt-3 ml-5 bg-amber-300 rounded-lg w-full">
           <h3 className="text-xl font-semibold">{title}</h3>
 
-          <div className="flex justify-between items-center mt-4">
+          <div className="flex justify-between items-center mt-4 ">
             {/* Left side: Channel Info + Subscribe */}
-            <div className="flex items-center space-x-6 -mt-2 text-sm">
+            <div className="flex items-center space-x-6 -mt-2 text-sm ">
               <img
                 src="https://via.placeholder.com/40"
                 alt="channel logo"
@@ -119,8 +119,8 @@ const WatchPage = () => {
             </div>
           </div>
         </div>
-        <h1 className="font-bold text-2xl mt-8 mb-4">Comments:</h1>
-        <div className="bg-gray-300 rounded-lg">
+        <h1 className="font-bold text-2xl ml-5 w-full bg-amber-700 mt-8 mb-4">Comments:</h1>
+        <div className="bg-gray-300 w-full ml-5 rounded-lg">
           <CommentsContainer videoId={videoId} />
         </div>
       </div>
