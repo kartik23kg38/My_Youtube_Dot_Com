@@ -55,7 +55,7 @@ const LiveChat = () => {
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
             <Users className="w-4 h-4 text-green-400" />
             <span className="text-sm text-green-300 font-semibold">
-              {chatMessages.length > 0 ? Math.min(chatMessages.length * 10, 2400) : 1200}
+              {chatMessages.length > 0 ? Math.min(chatMessages.length * 1, 2400) : 1200}
             </span>
           </div>
         </div>
@@ -68,9 +68,6 @@ const LiveChat = () => {
             <div
               key={idx}
               className="break-words overflow-wrap-anywhere max-w-full transform transition-all duration-200 hover:translate-x-1 animate-slide-up"
-              style={{
-                animationDelay: `${idx * 30}ms`
-              }}
             >
               <ChatMessage
                 name={message.name || "Anonymous"}

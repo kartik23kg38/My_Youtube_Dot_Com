@@ -34,7 +34,7 @@ const SideBar = () => {
 
   return (
     <div
-      className={`fixed top-20 left-0 w-56 h-[calc(100%-4rem)] bg-white shadow-lg transform transition-transform duration-300 ease-in-out overflow-y-auto ${
+      className={`z-20 fixed top-20 left-0 w-56 h-[calc(100%-4rem)] bg-white shadow-lg transform transition-transform duration-300 ease-in-out overflow-y-auto ${
         isHamburgerOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
