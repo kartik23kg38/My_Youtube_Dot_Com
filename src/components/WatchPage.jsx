@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeHamburger } from "../utils/appSlice";
 import { useSearchParams } from "react-router-dom";
-import { YOUTUBE_VDOS_API } from "../utils/constants";
+import { REACT_APP_YOUTUBE_VDOS_API } from "../utils/constants";
 import { setVideos } from "../utils/videoSlice";
 import CommentsContainer from "./CommentsContainer";
 import LiveChat from "./LiveChat";
@@ -30,7 +30,7 @@ const WatchPage = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await fetch(YOUTUBE_VDOS_API);
+      const data = await fetch(REACT_APP_YOUTUBE_VDOS_API);
       if (!data.ok) {
         throw new Error(`HTTP error! Status: ${data.status}`);
       }
