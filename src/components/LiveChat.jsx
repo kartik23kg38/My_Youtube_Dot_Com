@@ -27,6 +27,8 @@ const LiveChat = () => {
 
   return (
     <div className="h-auto p-6 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 backdrop-blur-xl rounded-2xl border border-cyan-500/20 shadow-2xl flex flex-col relative overflow-hidden">
+      
+      
       {/* Animated glow effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-32 h-32 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -55,14 +57,14 @@ const LiveChat = () => {
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
             <Users className="w-4 h-4 text-green-400" />
             <span className="text-sm text-green-300 font-semibold">
-              {chatMessages.length > 0 ? Math.min(chatMessages.length * 1, 2400) : 1200}
+              {chatMessages.length > 0 ? Math.min(chatMessages.length * 1, 2400) : 0}
             </span>
           </div>
         </div>
       </div>
 
       {/* Chat messages container */}
-      <div className="relative z-10 h-[500px] flex flex-col-reverse space-y-reverse space-y-3 overflow-y-auto overflow-x-hidden px-2 py-4 mb-6 custom-scrollbar">
+      <div className=" relative z-10 h-[500px] flex flex-col-reverse space-y-reverse space-y-3 overflow-y-auto overflow-x-hidden px-2 py-4 mb-6 custom-scrollbar">
         {chatMessages.map((message, idx) => {
           return (
             <div

@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setVideos } from "../utils/videoSlice";
 
 const VideoContainer = () => {
-
   const dispatch = useDispatch();
   // ⬇️ Get videos from Redux store
   const videos = useSelector((state) => state.videosOfStore.videos);
@@ -47,15 +46,15 @@ const VideoContainer = () => {
     <div className=" px-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-y-4 gap-x-4">
       {isLoading && <p className="text-gray-600">Loading videos...</p>}
       {error && <p className="text-red-600">Error: {error}</p>}
-      {!isLoading && !error && Array.isArray(videos) && videos.length > 0 ? (
-        videos.map((video, index) => (
-          <Link key={video.id} to={"watch?v=" + video.id}>
-            <VideoCards info={video} />
-          </Link>
-        ))
-      ) : (
-        !isLoading && <p className="text-gray-600 text-sm">No videos available.</p>
-      )}
+      {!isLoading && !error && Array.isArray(videos) && videos.length > 0
+        ? videos.map((video, index) => (
+            <Link key={video.id} to={"watch?v=" + video.id}>
+              <VideoCards info={video} />
+            </Link>
+          ))
+        : !isLoading && (
+            <p className="text-gray-600 text-sm">No videos available.</p>
+          )}
     </div>
   );
 };
