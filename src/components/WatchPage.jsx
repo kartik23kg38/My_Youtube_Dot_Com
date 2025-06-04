@@ -178,7 +178,7 @@ const WatchPage = () => {
             <CommentsContainer videoId={videoId} />
           </div>
         </div>
-        <div className="w-[450px] h-[600px] bg-gray-100 rounded-xl p-4 overflow-y-auto">
+        <div className="w-[450px] h-[850px] bg-gradient-to-bl from-violet-600 to-blue-400 rounded-xl p-4 overflow-y-auto">
           <LiveChat />
         </div>
       </div>

@@ -174,16 +174,16 @@ const nameList = [
   "Paradox",
 ];
 export function generateRandomNames() {
-  return (nameList[Math.floor(Math.random() * nameList.length)]);
+  return nameList[Math.floor(Math.random() * nameList.length)];
 }
 
-
 export function makeRandomMessages(length) {
-    let result           = '';
-    const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }

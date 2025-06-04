@@ -26,7 +26,7 @@ const LiveChat = () => {
   }, [dispatch]);
 
   return (
-    <div className="h-auto p-6 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 backdrop-blur-xl rounded-2xl border border-cyan-500/20 shadow-2xl flex flex-col relative overflow-hidden">
+    <div className="h-[800px]  p-6 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 backdrop-blur-xl rounded-2xl border border-cyan-500/20 shadow-2xl flex flex-col relative overflow-hidden">
       
       
       {/* Animated glow effects */}
@@ -96,7 +96,7 @@ const LiveChat = () => {
         }}
         className="relative z-10 mt-auto space-y-4"
       >
-        <div className="relative group">
+        <div className="relative group ">
           <input
             onChange={(e) => setLiveMsg(e.target.value)}
             value={liveMsg}
