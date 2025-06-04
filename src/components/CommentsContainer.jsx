@@ -226,7 +226,8 @@ const CommentsContainer = ({ videoId }) => {
   }
 
   return (
-    <div className="p-6 bg-gradient-to-br from-slate-900/40 to-gray-900/40 backdrop-blur-xl rounded-2xl border border-slate-600/20 relative overflow-hidden">
+    <div className="p-6 bg-gradient-to-br from-blue-500/90 to-violet-500/90 backdrop-blur-xl rounded-2xl border border-slate-600/20 relative overflow-hidden">
+      
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-1/4 w-24 h-24 bg-cyan-500/5 rounded-full blur-2xl animate-pulse"></div>
