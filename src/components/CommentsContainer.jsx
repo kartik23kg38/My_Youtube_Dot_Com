@@ -49,14 +49,12 @@ const Comment = ({ data, isReply = false }) => {
     <div className="animate-slide-up h-auto  px-4 py-2 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 backdrop-blur-xl rounded-2xl shadow-2xl flex flex-col relative overflow-hidden">
       <div
         className={`flex items-start gap-3 p-4 my-3 border transition-all duration-100 group relative overflow-hidden
-    backdrop-blur-sm bg-gradient-to-r ${
-      isReply
-        ? "from-slate-800/40 to-gray-800/40 ml-8"
-        : "from-slate-800/60 to-gray-800/60"
-    } 
-    rounded-xl ${
-      isReply ? "border-l-3 border-cyan-400" : "border-slate-600/30"
-    }
+    backdrop-blur-sm bg-gradient-to-r ${isReply
+            ? "from-slate-800/40 to-gray-800/40 ml-8"
+            : "from-slate-800/60 to-gray-800/60"
+          } 
+    rounded-xl ${isReply ? "border-l-3 border-cyan-400" : "border-slate-600/30"
+          }
     ${!isReply ? "border-l-4 border-violet-400 hover:shadow-violet-400/20" : "hover:shadow-cyan-400/20"}
     hover:shadow-2xl  
     transition-all duration-100 group relative overflow-hidden`}
@@ -96,9 +94,8 @@ const Comment = ({ data, isReply = false }) => {
         <div className="flex-1 relative z-10">
           <div className="flex items-center gap-3 mb-2">
             <span
-              className={`${
-                isReply ? "text-sm font-semibold" : "text-base font-bold"
-              } 
+              className={`${isReply ? "text-sm font-semibold" : "text-base font-bold"
+                } 
               text-cyan-300`}
             >
               {name}
@@ -226,8 +223,8 @@ const CommentsContainer = ({ videoId }) => {
   }
 
   return (
-    <div className="p-6 bg-gradient-to-bl from-violet-600 to-blue-400 backdrop-blur-xl rounded-2xl border border-slate-600/20 relative overflow-hidden">
-      
+    <div className="p-2 bg-gradient-to-br from-gray-600 to-white backdrop-blur-xl rounded-2xl border border-slate-600/20 relative overflow-hidden">
+
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-1/4 w-24 h-24 bg-cyan-500/5 rounded-full blur-2xl animate-pulse"></div>
