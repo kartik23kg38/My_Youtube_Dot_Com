@@ -13,7 +13,7 @@ const chatSlice = createSlice({
   },
   reducers: {
     addMessage: (state, action) => {
-      state.messages.splice(LIVE_CHAT_COUNT, 1); // Limit to the last 100 messages
+      state.messages.splice(LIVE_CHAT_COUNT, 1); // Limit to the last 40 messages
       state.messages.unshift(action.payload);
       // This action adds a new message to the chat
     },
